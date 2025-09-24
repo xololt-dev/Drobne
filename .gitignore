@@ -42,3 +42,5 @@
 
 # Don't track build from CMake
 build
+
+.cache

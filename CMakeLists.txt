@@ -16,4 +16,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 file(GLOB SOURCES "${CMAKE_SOURCE_DIR}/*.cpp" "${CMAKE_SOURCE_DIR}/*/*.cpp")
 add_executable(${PROJECT_NAME} ${SOURCES})
 
-target_include_directories(drobne PUBLIC "${PROJECT_BINARY_DIR}")
+target_include_directories(drobne PUBLIC ${CMAKE_SOURCE_DIR}/drobne)
+
+########################
+# TODO: add clang-tidy #
+########################
