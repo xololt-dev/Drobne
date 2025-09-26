@@ -1,7 +1,11 @@
-#include <display.hpp>
 #include <program.hpp>
+#include <database.hpp>
+#include <display.hpp>
 
-// TODO:
-void Program::setDisplay(display::Display display) {
-    return;
+void Program::setDisplay(display::Display& new_display) {
+    display = &new_display;
+}
+
+void Program::setDatabase(database::Database& new_database) {
+    database = &new_database;
 }

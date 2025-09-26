@@ -6,8 +6,8 @@ class Program {
 public:
     void start();
 
-    void setDisplay(display::Display display);
-    void setDatabase(database::Database database);
+    void setDisplay(display::Display& new_display);
+    void setDatabase(database::Database& new_database);
 private:
     display::Display* display;
     database::Database* database;

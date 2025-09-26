@@ -3,6 +3,7 @@
 namespace display {
     class Display {
     public:
-        virtual ~Display() {}
+        virtual ~Display() {};
+        virtual void render() = 0;
     };
 }

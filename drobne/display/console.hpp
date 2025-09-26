@@ -4,6 +4,9 @@
 namespace display {
     class Console : public Display {
     public:
-        // virtual ~ConsoleGraphics() {}
+        Console() {};
+        ~Console() override;
+
+        void render() override;
     };
 }
