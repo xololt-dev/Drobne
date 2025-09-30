@@ -1,5 +1,6 @@
 #pragma once
 #include <display.hpp>
+#include <display/menu.hpp>
 
 namespace display {
     class Console : public Display {
@@ -7,6 +8,10 @@ namespace display {
         Console() {};
         ~Console() override;
 
-        void render() override;
+        void render(const display::Menu state) override;
+    private:
+        void renderMainMenu();
+
+        void clear();
     };
 }
