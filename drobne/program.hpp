@@ -1,9 +1,8 @@
 #pragma once
+#include <navigation_renderer.hpp>
+#include <navigator.hpp>
 #include <input.hpp>
-#include <display.hpp>
-#include <display/menu.hpp>
 #include <database.hpp>
-#include <stack>
 
 class Program {
 public:
@@ -13,17 +12,14 @@ public:
 
     void processInput(std::vector<char>& inputQueue);
 
-    void setDisplay(display::Display& new_display);
     void setInput(input::Input& new_input);
     void setDatabase(database::Database& new_database);
 
-    display::Display& getDisplay();
     input::Input& getInput();
     database::Database& getDatabase();
 private:
-    std::stack<display::Menu, std::vector<display::Menu>> navigationStack;
-
-    display::Display* display;
+    navigation::Navigator* navigation;
+    display::INavigationRenderer* renderer;
     input::Input* input;
     database::Database* database;
 };

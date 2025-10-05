@@ -1,47 +1,53 @@
-#include <display/menu.hpp>
-#include <display/console.hpp>
-#include <input.hpp>
-#include <database/sqlite.hpp>
 #include <iostream>
 #include <ostream>
-#include <program.hpp>
-#include <database.hpp>
-#include <display.hpp>
 #include <vector>
+
+#include <navigator.hpp>
+#include <navigation_node.hpp>
+#include <navigation/main_menu_node.hpp>
+#include <input.hpp>
+#include <database.hpp>
+#include <database/sqlite.hpp>
+#include <program.hpp>
+#include <display.hpp>
+#include <display/console_renderer.hpp>
 
 Program::Program() {
     this->database = new database::SQLite();
-    this->display = new display::Console();
+    this->renderer = new display::ConsoleRenderer();
+    this->navigation = new navigation::Navigator();
 
-    navigationStack.push(display::Menu::MAIN_MENU);
+    navigation->push(std::make_unique<navigation::MainMenuNode>(navigation));
 }
 
 Program::~Program() {
     delete database;
-    delete display;
+    delete renderer;
     delete input;
+    delete navigation;
 }
 
 void Program::start() {
     std::cout << database->create() << std::endl;
     std::vector<char> inputQueue;
 
-    display->render(navigationStack.top());
-    while (true) {
-        // std::vector<char> inputQueue = input->getInputQueue();
-        int kodASCII = 0;
-        while (kodASCII != 10) {
-            kodASCII = getchar();
-            inputQueue.emplace_back(kodASCII);
-        }
-        processInput(inputQueue);
-        inputQueue.clear();
+    while (!navigation->isEmpty()) {
+        navigation::INavigationNode* currentNode = navigation->getCurrentNode();
 
-        if (navigationStack.empty()) {
+        if (!currentNode) {
             break;
         }
 
-        display->render(navigationStack.top());
+        renderer->clearScreen();
+        currentNode->render(*renderer);
+
+        int codeASCII = 0;
+        while (codeASCII != 10) {
+            codeASCII = getchar();
+            inputQueue.emplace_back(codeASCII);
+        }
+        currentNode->handleInput(inputQueue);
+        inputQueue.clear();
     }
 }
 
@@ -56,7 +62,7 @@ void Program::processInput(std::vector<char>& inputQueue) {
                 break;
             // ESC
             case 27:
-                navigationStack.pop();
+                navigation->pop();
                 break;
             // Space
             case 32:
@@ -67,16 +73,8 @@ void Program::processInput(std::vector<char>& inputQueue) {
     }
 }
 
-void Program::setDisplay(display::Display& new_display) {
-    display = &new_display;
-}
-
 void Program::setDatabase(database::Database& new_database) {
     database = &new_database;
-}
-
-display::Display& Program::getDisplay() {
-    return *display;
 }
 
 database::Database& Program::getDatabase() {

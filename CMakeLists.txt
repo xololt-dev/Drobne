@@ -13,18 +13,25 @@ project(drobne VERSION 0.0.1 LANGUAGES CXX)
 set(MAIN_SRC 
 ${CMAKE_SOURCE_DIR}/${PROJECT_NAME}/main.cpp 
 ${CMAKE_SOURCE_DIR}/${PROJECT_NAME}/program.cpp
+${CMAKE_SOURCE_DIR}/${PROJECT_NAME}/navigator.cpp
 )
-set(DISPLAY_SRC 
-${CMAKE_SOURCE_DIR}/${PROJECT_NAME}/display/console.cpp
-)
+# set(DISPLAY_SRC 
+# ${CMAKE_SOURCE_DIR}/${PROJECT_NAME}/display/console.cpp
+# )
 set(DB_SRC
 ${CMAKE_SOURCE_DIR}/${PROJECT_NAME}/database/sqlite.cpp
+)
+set(NAV_SRC
+${CMAKE_SOURCE_DIR}/${PROJECT_NAME}/navigation/main_menu_node.cpp
+${CMAKE_SOURCE_DIR}/${PROJECT_NAME}/navigation/accounts_node.cpp
+${CMAKE_SOURCE_DIR}/${PROJECT_NAME}/navigation/add_account_node.cpp
 )
 
 add_executable(${PROJECT_NAME} 
 ${MAIN_SRC}
-${DISPLAY_SRC}
+# ${DISPLAY_SRC}
 ${DB_SRC}
+${NAV_SRC}
 )
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_SOURCE_DIR}/${PROJECT_NAME})
